@@ -3,10 +3,6 @@ web:
   host: 127.0.0.1
   port: 8000
 
-security:
-  cors_allowed_domains:
-    - https://swagger.ktsstudio.com
-
 sentry:
   dsn:
   env: dev

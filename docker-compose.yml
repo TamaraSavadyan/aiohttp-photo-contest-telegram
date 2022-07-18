@@ -1,8 +1,0 @@
-version: '3'
-services:
-  api:
-    build: .
-    volumes:
-      - ./etc/config.yaml:/app/config.yaml:ro
-    ports:
-      - "8000:8000"

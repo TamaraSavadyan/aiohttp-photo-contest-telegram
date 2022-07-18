@@ -1,7 +1,0 @@
-include:
-  project: mnt/ci
-  file: back/ci.yaml
-
-variables:
-  DOMAIN_DEV: "kts_backend.kube1.ktsdev.ru"
-  DOMAIN_PROD: "kts_backend.ru-prod2.kts.studio"

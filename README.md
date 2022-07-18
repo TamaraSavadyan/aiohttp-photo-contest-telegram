@@ -1,8 +1,1 @@
-# kts_backend
-
-## Running
-
-To view what you can run:
-```
-./manage.py --help
-```
+# [Памятка](https://docs.google.com/document/d/1uiOOXoPd4pUBhJQ-WC-ugwkyg-X-wUcfrNckTd4VW3g/edit?usp=sharing)
