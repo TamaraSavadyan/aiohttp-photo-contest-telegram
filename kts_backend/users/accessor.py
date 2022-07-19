@@ -1,2 +1,2 @@
-class UserAccessor():
+class UserAccessor:
     pass

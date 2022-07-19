@@ -12,7 +12,6 @@ from kts_backend import __appname__, __version__
 from .urls import register_urls
 
 
-
 __all__ = ("ApiApplication",)
 
 
@@ -20,4 +19,3 @@ class Application(AiohttpApplication):
     config = None
     store = None
     database = None
-
