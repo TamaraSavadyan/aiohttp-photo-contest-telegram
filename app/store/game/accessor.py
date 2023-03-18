@@ -12,6 +12,7 @@ from app.quiz.models import (
     AnswerModel
 )
 
+#TODO: change this shit totaly to be game_accessor
 
 class QuizAccessor(BaseAccessor):
     async def create_theme(self, title: str) -> Theme:

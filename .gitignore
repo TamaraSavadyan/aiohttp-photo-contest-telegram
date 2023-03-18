@@ -122,3 +122,6 @@ dmypy.json
 rpmtools
 local
 .DS_Store
+
+# Other
+tests_example/

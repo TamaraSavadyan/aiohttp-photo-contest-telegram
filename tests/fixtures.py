@@ -1,2 +1,2 @@
 import pytest
-from tests.conftest import *
+from tests_example.conftest import *
