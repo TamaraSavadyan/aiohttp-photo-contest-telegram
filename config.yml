@@ -12,7 +12,7 @@ database:
   password: kts_pass
   database: kts
 bot:
-  token: group_token
-  group_id: 1
+  token: 6296080745:AAHFohTB5Yi-4uFQoLp0Gd4LWY9kgz0SzP8
+  chat_id: 1
 
 

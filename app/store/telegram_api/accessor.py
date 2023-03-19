@@ -8,14 +8,18 @@ from aiohttp.client import ClientSession
 from app.base.base_accessor import BaseAccessor
 from app.store.telegram_api.dataclasses import Message, Update, UpdateObject
 from app.store.telegram_api.poller import Poller
+from app.web import app
 
 if typing.TYPE_CHECKING:
     from app.web.app import Application
 
-API_PATH = "https://api.vk.com/method/"
+bot_token = app.config.bot.token
+API_PATH = f"https://api.telegram.org/bot{bot_token}/getUpdates"
 
+#TODO read KTS article about polling, maybe change poller to telegram_api poller??
+TODO
 
-class VkApiAccessor(BaseAccessor):
+class TelegramApiAccessor(BaseAccessor):
     def __init__(self, app: "Application", *args, **kwargs):
         super().__init__(app, *args, **kwargs)
         self.session: Optional[ClientSession] = None

@@ -4,7 +4,8 @@ from typing import Optional
 
 from app.store import Store
 
-
+#TODO read KTS article about polling, maybe change poller to telegram_api poller??
+TODO??
 class Poller:
     def __init__(self, store: Store):
         self.store = store

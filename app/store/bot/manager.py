@@ -8,7 +8,7 @@ if typing.TYPE_CHECKING:
     from app.web.app import Application
 
 #TODO: Figure out where telegram logic should be
-
+TODO
 class BotManager:
     def __init__(self, app: "Application", bot: "Bot", dispatcher: "Dispatcher"):
         self.app = app
@@ -18,10 +18,10 @@ class BotManager:
 
     async def handle_updates(self, updates: list[Update]):
         for update in updates:
-            await self.app.store.vk_api.send_message(
+            await self.app.store.telegram_api.send_message(
                 Message(
                     user_id=update.object.user_id,
-                    text="Привет!",
+                    text=update.message.text, #TODO change this???
                 )
             )
 
