@@ -59,7 +59,7 @@ def setup_app(config_path: str) -> Application:
     session_setup(app, EncryptedCookieStorage(app.config.session.key))
     setup_routes(app)
     setup_aiohttp_apispec(
-        app, title="Vk Quiz Bot", url="/docs/json", swagger_path="/docs"
+        app, title="Telegram Game Bot", url="/docs/json", swagger_path="/docs"
     )
     setup_middlewares(app)
     setup_store(app)

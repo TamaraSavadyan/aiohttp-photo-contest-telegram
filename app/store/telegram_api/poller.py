@@ -4,8 +4,7 @@ from typing import Optional
 
 from app.store import Store
 
-#TODO read KTS article about polling, maybe change poller to telegram_api poller??
-TODO??
+
 class Poller:
     def __init__(self, store: Store):
         self.store = store
@@ -22,5 +21,5 @@ class Poller:
 
     async def poll(self):
         while self.is_running:
-            updates = await self.store.vk_api.poll()
+            updates = await self.store.telegram_api.poll()
             await self.store.bots_manager.handle_updates(updates)

@@ -29,9 +29,4 @@ class AdminModel(db):
     password = Column(String)
 
     def to_data(self) -> Admin:
-        return Admin(
-            id=self.id,
-            email=self.email,
-            password=self.password
-        )
-
+        return Admin(id=self.id, email=self.email, password=self.password)

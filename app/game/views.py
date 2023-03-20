@@ -48,13 +48,13 @@
 #                 flag += 1
 #             if flag > 1:
 #                 raise HTTPBadRequest
-            
+
 #         if flag == 0:
-#                 raise HTTPBadRequest    
-            
+#                 raise HTTPBadRequest
+
 #         if len(answers) == 1:
 #             raise HTTPBadRequest
-        
+
 #         if await self.store.quizzes.get_question_by_title(data["title"]):
 #             raise HTTPConflict
 #         if not await self.store.quizzes.get_theme_by_id(int(data["theme_id"])):

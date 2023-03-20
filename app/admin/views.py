@@ -11,7 +11,7 @@ from app.web.mixins import AuthRequiredMixin
 
 
 class AdminLoginView(View):
-    @docs(tags=["vk_quiz"], summary="Sign in", description="Sign in as Admin")
+    @docs(tags=["tg_game"], summary="Sign in", description="Sign in as Admin")
     @request_schema(AdminSchema)
     @response_schema(AdminSchema)
     async def post(self):
@@ -19,11 +19,11 @@ class AdminLoginView(View):
         admin = await self.store.admins.get_by_email(data["email"])
 
         if not admin:
-            raise HTTPForbidden(reason='no admin with this email')
-        print(f'log {admin.password = }')
+            raise HTTPForbidden(reason="no admin with this email")
+        print(f"log {admin.password = }")
         print(f'log {sha256(self.data["password"].encode()).hexdigest() = }')
         if admin.password != sha256(self.data["password"].encode()).hexdigest():
-            raise HTTPForbidden(reason='invalid password')
+            raise HTTPForbidden(reason="invalid password")
 
         raw_admin = AdminSchema().dump(admin)
         session = await new_session(request=self.request)
@@ -32,7 +32,9 @@ class AdminLoginView(View):
 
 
 class AdminCurrentView(AuthRequiredMixin, View):
-    @docs(tags=["vk_quiz"], summary="Current admin", description="Current admin")
+    @docs(
+        tags=["tg_game"], summary="Current admin", description="Current admin"
+    )
     @response_schema(AdminSchema, 200)
     async def get(self):
         return json_response(data=AdminSchema().dump(self.request.admin))

@@ -12,13 +12,11 @@ if typing.TYPE_CHECKING:
 
 
 class AdminAccessor(BaseAccessor):
-
     async def connect(self, app: "Application"):
         admin = await self.get_by_email(email=self.app.config.admin.email)
         if not admin:
             await self.create_admin(
-                email=app.config.admin.email,
-                password=app.config.admin.password
+                email=app.config.admin.email, password=app.config.admin.password
             )
 
     async def get_by_email(self, email: str) -> Optional[Admin]:
@@ -35,5 +33,5 @@ class AdminAccessor(BaseAccessor):
             admin = AdminModel(email=email, password=p)
             session.add(admin)
             await session.commit()
-            
+
             return admin.to_data()

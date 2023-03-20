@@ -10,39 +10,60 @@ from app.game.models import (
     ChatModel,
     GameModel,
     PlayerModel,
-    GameScoreModel
+    GameScoreModel,
 )
 
-#TODO: change this shit totaly to be game_accessor
+# TODO: change this shit totaly to be game_accessor
+
 
 class GameAccessor(BaseAccessor):
-
     async def create_game(self, chat_id: int, players: list[Player]) -> Game:
         async with self.app.database.session() as session:
-            players_list = [PlayerModel(chat_id=player.chat_id, telegram_id=player.telegram_id, 
-                                        first_name=player.first_name, last_name=player.last_name,
-                                        score=player.score, game=player.game) for player in players]
+            players_list = [
+                PlayerModel(
+                    chat_id=player.chat_id,
+                    telegram_id=player.telegram_id,
+                    first_name=player.first_name,
+                    last_name=player.last_name,
+                    score=player.score,
+                    game=player.game,
+                )
+                for player in players
+            ]
             game = GameModel(chat_id=chat_id, players=players_list)
             session.add(game)
             await session.commit()
             return game.to_data()
-        
-    async def create_player(self, chat_id: int, telegram_id: int, first_name: str, last_name: str, 
-                            score: GameScore, game: Game) -> Player:
+
+    async def create_player(
+        self,
+        chat_id: int,
+        telegram_id: int,
+        first_name: str,
+        last_name: str,
+        score: GameScore,
+        game: Game,
+    ) -> Player:
         async with self.app.database.session() as session:
-            player = PlayerModel(chat_id=chat_id, telegram_id=telegram_id, first_name=first_name, last_name=last_name,
-                                 score=score, game=game)
+            player = PlayerModel(
+                chat_id=chat_id,
+                telegram_id=telegram_id,
+                first_name=first_name,
+                last_name=last_name,
+                score=score,
+                game=game,
+            )
             session.add(player)
             await session.commit()
             return player.to_data()
-        
+
     async def create_game_score(self, points: int, player: Player) -> GameScore:
         async with self.app.database.session() as session:
             game_score = GameScoreModel(points=points, player=player)
             session.add(game_score)
             await session.commit()
             return game_score.to_data()
-        
+
     async def get_all_players_in_chat(self, chat_id: int) -> list[Player]:
         async with self.app.database.session() as session:
             q = select(PlayerModel).where(PlayerModel.chat_id == chat_id)
@@ -53,27 +74,42 @@ class GameAccessor(BaseAccessor):
 
     async def get_latest_game_by_chat_id(self, chat_id: int) -> Game:
         async with self.app.database.session() as session:
-            q = select(GameModel).where(GameModel.chat_id == chat_id).order_by(GameModel.created_at.desc())
+            q = (
+                select(GameModel)
+                .where(GameModel.chat_id == chat_id)
+                .order_by(GameModel.created_at.desc())
+            )
             result = await session.execute(q)
             game = result.scalars().first()
             if game:
                 return game.to_data()
-            
+
     async def get_latest_players_by_chat_id(self, chat_id: int) -> list[Player]:
         async with self.app.database.session() as session:
-            q = select(PlayerModel).where(PlayerModel.chat_id == chat_id).order_by(PlayerModel.game.created_at.desc())
+            q = (
+                select(PlayerModel)
+                .where(PlayerModel.chat_id == chat_id)
+                .order_by(PlayerModel.game.created_at.desc())
+            )
             result = await session.execute(q)
             players = result.scalars().all()
             if players:
                 return [player.to_data() for player in players]
-            
-    async def get_latest_scores_by_chat_id(self, chat_id: int) -> list[GameScore]:
+
+    async def get_latest_scores_by_chat_id(
+        self, chat_id: int
+    ) -> list[GameScore]:
         async with self.app.database.session() as session:
-            q = select(GameScoreModel).where(GameScoreModel.player.chat_id == chat_id).order_by(GameScoreModel.player.game.created_at.desc())
+            q = (
+                select(GameScoreModel)
+                .where(GameScoreModel.player.chat_id == chat_id)
+                .order_by(GameScoreModel.player.game.created_at.desc())
+            )
             result = await session.execute(q)
             scores = result.scalars().all()
             if scores:
                 return [score.to_data() for score in scores]
+
 
 # class QuizAccessor(BaseAccessor):
 #     async def create_theme(self, title: str) -> Theme:

@@ -8,7 +8,7 @@ from aiohttp.client import ClientSession
 from app.base.base_accessor import BaseAccessor
 from app.store.telegram_api.dataclasses import Message, Update, UpdateObject
 from app.store.telegram_api.poller import Poller
-from app.web import app
+from app.web.config import app
 
 if typing.TYPE_CHECKING:
     from app.web.app import Application
@@ -16,8 +16,6 @@ if typing.TYPE_CHECKING:
 bot_token = app.config.bot.token
 API_PATH = f"https://api.telegram.org/bot{bot_token}/getUpdates"
 
-#TODO read KTS article about polling, maybe change poller to telegram_api poller??
-TODO
 
 class TelegramApiAccessor(BaseAccessor):
     def __init__(self, app: "Application", *args, **kwargs):
@@ -51,24 +49,6 @@ class TelegramApiAccessor(BaseAccessor):
             params["v"] = "5.131"
         url += "&".join([f"{k}={v}" for k, v in params.items()])
         return url
-
-    async def _get_long_poll_service(self):
-        async with self.session.get(
-            self._build_query(
-                host=API_PATH,
-                method="groups.getLongPollServer",
-                params={
-                    "group_id": self.app.config.bot.group_id,
-                    "access_token": self.app.config.bot.token,
-                },
-            )
-        ) as resp:
-            data = (await resp.json())["response"]
-            self.logger.info(data)
-            self.key = data["key"]
-            self.server = data["server"]
-            self.ts = data["ts"]
-            self.logger.info(self.server)
 
     async def poll(self):
         async with self.session.get(
@@ -109,7 +89,7 @@ class TelegramApiAccessor(BaseAccessor):
                 params={
                     "user_id": message.user_id,
                     "random_id": random.randint(1, 2**32),
-                    "peer_id": "-" + str(self.app.config.bot.group_id),
+                    "peer_id": "-" + str(self.app.config.bot.chat_id),
                     "message": message.text,
                     "access_token": self.app.config.bot.token,
                 },
