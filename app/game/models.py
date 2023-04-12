@@ -14,7 +14,6 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import relationship
-
 from app.store.database.sqlalchemy_base import db
 
 
@@ -43,16 +42,6 @@ class GameScore:
     player: "Player"
 
 
-# class ChatModel(db):
-#     __tablename__ = "chats"
-#     id = Column(BigInteger, primary_key=True)
-
-#     chat_id = Column(BigInteger)
-
-#     player_id = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"))
-#     game_id = Column(Integer, ForeignKey("players.id", ondelete="CASCADE"))
-
-
 class GameModel(db):
     __tablename__ = "games"
     id = Column(BigInteger, primary_key=True)
@@ -60,10 +49,6 @@ class GameModel(db):
     chat_id = Column(BigInteger, nullable=False)
 
     players = relationship("PlayerModel", backref="games")
-
-    # chat_id = Column(Integer, ForeignKey("chats.id", ondelete="CASCADE"))
-
-    # players = relationship("PlayerModel", secondary="chats", backref="players")
 
     def to_data(self) -> Game:
         return Game(
@@ -83,11 +68,10 @@ class PlayerModel(db):
     last_name = Column(String, nullable=False)
 
     chat_id = Column(BigInteger, nullable=False)
-    # chat_id = Column(Integer, ForeignKey("chats.id", ondelete="CASCADE"))
 
     score = relationship("GameScoreModel", backref="players")
     game = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"))
-    # games = relationship("GameModel", secondary="chats", backref="games")
+
 
     def to_data(self) -> Player:
         return Player(
@@ -109,3 +93,4 @@ class GameScoreModel(db):
 
     def to_data(self) -> GameScore:
         return GameScore(points=self.points)
+
