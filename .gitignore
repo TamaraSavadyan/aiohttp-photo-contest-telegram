@@ -125,3 +125,11 @@ local
 
 # Other
 tests_example/
+
+# Ignore .yml, .yaml
+*.yml
+*.yaml
+
+# Ignore .jpg, .png
+*.jpg
+*.png
